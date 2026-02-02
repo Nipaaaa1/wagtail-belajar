@@ -54,8 +54,3 @@ table {
         border-collapse: collapse;
         border-spacing: 0;
 }
-
-body {
-        background: oklch(10%, 0.17, 180);
-        color: oklch(98%, 0.05, 180);
-}
