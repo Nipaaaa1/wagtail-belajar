@@ -2,23 +2,27 @@
 
 {% load static wagtailcore_tags %}
 
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/blog_index_page.css' %}">
+{% endblock %}
+
 {% block content %}
-
 <h1>{{ page.title }}</h1>
-<div>{{ page.description|richtext }}</div>
-
-{% for post in posts %}
-<div>
-  <span>
-    <a href="{% pageurl post %}">
-    {{ post.title }}
-    </a>
-  </span>
-  <span>{{ post.date }}</span>
-  <div>
-    {{ post.intro|richtext }}
-  </div>
+<div class="blog-description">
+  {{ page.description|richtext }}
 </div>
-{% endfor %}
 
-{% endblock content %}
+<section class="post-list">
+  {% for post in posts %}
+  <article class="post-card">
+    <h2>
+      <a href="{% pageurl post %}">{{ post.title }}</a>
+    </h2>
+    <span class="post-date">{{ post.date }}</span>
+    <div class="post-intro">
+      {{ post.intro|richtext }}
+    </div>
+  </article>
+  {% endfor %}
+</section>
+{% endblock %}

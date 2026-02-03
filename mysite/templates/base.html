@@ -30,17 +30,31 @@
         {# Override this in templates to add extra stylesheets #}
         {% endblock %}
     </head>
+<body class="{% block body_class %}{% endblock %}">
+  {% wagtailuserbar %}
 
-    <body class="{% block body_class %}{% endblock %}">
-        {% wagtailuserbar %}
+  <header class="site-header">
+    <div class="container">
+      <a href="/" class="site-title">
+        {{ current_site.site_name|default:"My Blog" }}
+      </a>
+      <nav class="site-nav">
+        <a href="/">Home</a>
+        <a href="/blog/">Blog</a>
+      </nav>
+    </div>
+  </header>
 
-        {% block content %}{% endblock %}
+  <main class="site-main container">
+    {% block content %}{% endblock %}
+  </main>
 
-        {# Global javascript #}
-        <script type="text/javascript" src="{% static 'js/mysite.js' %}"></script>
+  <footer class="site-footer">
+    <div class="container">
+      <p>© {{ now|date:"Y" }} — Built with Wagtail 🐦</p>
+    </div>
+  </footer>
 
-        {% block extra_js %}
-        {# Override this in templates to add extra javascript #}
-        {% endblock %}
-    </body>
+  <script src="{% static 'js/mysite.js' %}"></script>
+</body>
 </html>

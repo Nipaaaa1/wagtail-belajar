@@ -19,7 +19,7 @@ class BlogIndexPage(Page):
     def get_context(self, request):
         context = super().get_context(request)
 
-        posts = self.get_children().order_by("-first_published_at")
+        posts = BlogPostPage.objects.all().order_by("-first_published_at")
 
         context["posts"] = posts
 
