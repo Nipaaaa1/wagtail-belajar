@@ -26,6 +26,28 @@
     {{ page.intro|richtext}}
   </div>
   {{ page.content|richtext }}
+  <div>
+    {% with images=page.image_gallery.all %}
+    {% if images %}
+    {% for image in images %}
+    <div>
+      {% image image.image format-webp width-256 %}
+      <p>{{ image.caption }}</p>
+    </div>
+    {% endfor %}
+    {% endif %}
+    {% endwith %}
+  </div>
+  <a href="{{ page.get_parent.url }}">Kembali ke Blog</a>
+  <div>
+    {% with tags=page.tags.all %}
+    {% if tags %}
+    {% for tag in tags %}
+    <a href="{% slugurl 'tags' %}?tag={{ tag }}">{{ tag }}</a>
+    {% endfor %}
+    {% endif %}
+    {% endwith %}
+  </div>
 </div>
 
 {% endblock content %}

@@ -67,4 +67,11 @@ class Author(models.Model):
 
 
 class TagIndexPage(Page):
-    pass
+    def get_context(self, request):
+        tag = request.GET.get("tag")
+        posts = BlogPostPage.objects.filter(tags__name=tag)
+
+        context = super().get_context(request)
+        context["posts"] = posts
+
+        return context
