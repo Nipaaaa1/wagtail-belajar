@@ -6,6 +6,7 @@ from taggit.models import TaggedItemBase
 from wagtail.fields import RichTextField
 from wagtail.models import Orderable, Page
 from wagtail.admin.panels import FieldPanel, InlinePanel
+from wagtail.search import index
 from wagtail.snippets.models import register_snippet
 from datetime import date
 
@@ -14,6 +15,15 @@ class BlogIndexPage(Page):
     description = RichTextField(blank=True)
 
     content_panels = Page.content_panels + [FieldPanel("description")]
+
+    def get_context(self, request):
+        context = super().get_context(request)
+
+        posts = self.get_children().order_by("-first_published_at")
+
+        context["posts"] = posts
+
+        return context
 
 
 class BlogPostTag(TaggedItemBase):
@@ -36,6 +46,11 @@ class BlogPostPage(Page):
         FieldPanel("content"),
         InlinePanel("image_gallery", label="Images Gallery"),
         FieldPanel("tags"),
+    ]
+
+    search_fields = Page.search_fields + [
+        index.SearchField("title"),
+        index.SearchField("intro"),
     ]
 
 
